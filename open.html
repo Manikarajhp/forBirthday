@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Plaster&family=Rubik+Bubbles&display=swap');
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://img.freepik.com/premium-vector/pattern-line-theme-birthday-party-holiday-accessories-transparent-background-print_876207-354.jpg?w=2000');
+            backdrop-filter: blur(2px);
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        #timer{
+            width: 300px;
+            height: 150px;
+            border-radius: 10px;
+            font-family: 'Plaster', monospace;
+            font-size: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(149, 0, 255, 0.2);  
+            backdrop-filter: blur(3px);
+            box-shadow: 1px 1px 2px 2px rgb(56, 56, 56);
+        }
+        #button-container{
+            width: 300px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #btn1{
+            width: 250px;
+            padding: 10px;
+            border-radius: 50px;
+            background-image: url('https://tse2.mm.bing.net/th/id/OIP.z6fCIwrMmeXlQe1rhCc_6gAAAA?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3');
+            font-family: "Alex Brush" , sans-serif;
+            font-weight: bold;
+            border: 2px solid black;
+            font-size: 20px;
+            animation: shake 2s infinite ease-in-out;
+        }
+        #btn1:disabled{
+            opacity: 1 !important;
+            cursor: default !important;
+            filter: none !important;
+            pointer-events: none !important;
+        }
+        #pops{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .pop{
+            position: relative;
+            width: 5px;
+            height: 10px;
+            top: 0px;
+            background-color: #fff;
+            animation: fall 10s infinite linear;
+        }
+        #topDecoration{
+            position: absolute;
+            width: 100%;
+            top: 0px;
+            left: 0px;
+            animation: fromTop 1s linear;
+        }
+        #triangles{
+            width: 100%;
+            height: 150px;
+            background-image: url('https://th.bing.com/th/id/R.0b41491cca97692e91acd3cb8593e281?rik=jV76oTHUAQ3bPg&riu=http%3a%2f%2fmyeleos.net%2fwp-content%2fuploads%2f2019%2f09%2fbirthday.png&ehk=EOUfRFtJmEPhI6CqjY5moTxXi2zA9I08qPsg85pz%2bU8%3d&risl=&pid=ImgRaw&r=0');
+            background-size: cover;
+        }
+        #leftBalloons,
+        #rightBalloons{
+            width: 200px;
+            height: 300px;
+            background-image: url('https://th.bing.com/th/id/R.5831cd6f92f7473dbfb5bfd5ee4e4693?rik=7AN6FWXl2TQYUQ&riu=http%3a%2f%2fclipart-library.com%2fimages%2f8TAbRpzzc.png&ehk=2qn%2frKDn%2fD1g2pqXLqqkOUDUE3AlKwg2U4akZ3j3tJs%3d&risl=1&pid=ImgRaw&r=0');
+            background-size:contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transform: rotate(30deg);
+            position: absolute;
+            top: 200px;
+            z-index: -1;
+        }
+        #leftBalloons{
+            left: -100px;
+            animation: fromLeft 1s linear;
+        }
+        #rightBalloons{
+            animation: fromRight 1s linear;
+            transform: rotate(-45deg);
+            right: -100px;
+        }
+        #name{
+            width: 100%;
+            padding: 10px 0px;
+            position: absolute;
+            text-align: center;
+            top: 130px;
+            left: 0;
+        }
+        #name h1{
+            font-family: 'Rubik Bubbles';
+            letter-spacing: 2px;
+            color: purple;
+            font-size: 46px;
+            animation: textBounce 1s ease-in-out;
+        }
+        #cakeContainer{
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #bottomLayer,
+        #middleLayer,
+        #topLayer{
+            position: relative;
+            width: 200px;
+            height: 60px;
+            background-color: #411900;
+            border-radius: 10px 10px 0px 0px;
+            overflow: hidden;
+            transform-origin: bottom;
+        }
+        #bottomLayer{
+            animation: build 1s linear;
+        }
+        #topLayer{
+            animation: build 1s linear;
+            width: 100px;
+        }
+        #middleLayer{
+            animation: build 1s linear;
+            width: 150px;
+        }
+        #bottomLayer::after,
+        #topLayer::after,
+        #middleLayer::after
+        {
+            content: "";
+            position: absolute;
+            top: -15px;
+            border-radius: 10px 10px 0px 0px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/032/475/153/small_2x/realistic-dripping-chocolate-texture-generative-ai-png.png');
+            background-size: cover;      
+            background-position: center;
+            background-repeat: no-repeat;
+            display: block;
+            z-index: 2; 
+        }
+        #candles{
+            display: flex;
+        }
+        #candle2,
+        #candle1{
+            width: 30px;
+            height: 40px;
+            position: relative;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/011/287/865/original/golden-number-2-png.png');
+            background-size: cover;
+            background-position: center;
+            animation: build 3s ease;
+        }
+        #candle1{
+            background-image: url('https://static.vecteezy.com/system/resources/previews/011/298/018/original/golden-number-1-png.png');
+        }
+        #candle1::after,
+        #candle2::after{
+            content: "";
+            position: absolute;
+            top: -25px;
+            left: 60%;
+            transform: translateX(-50%);
+                
+            width: 10px;
+            height: 25px;
+                
+            background: radial-gradient(circle at 50% 60%, 
+                        rgba(255, 255, 150, 1) 20%, 
+                        rgba(255, 140, 0, 0.9) 60%, 
+                        rgba(255, 80, 0, 0.4) 90%, 
+                        transparent 100%);
+                
+            border-radius: 50% 50% 60% 60%;
+                
+            animation: flameFlicker 0.12s infinite alternate ease-in-out;
+            transform-origin: 50% 100%;
+        }
+        #bottomDecoration{
+            position: absolute;
+            width: 100%;
+            bottom: -80px;
+            left: 0px;
+            animation: fromDown 1s linear;
+        }
+        #balloons{
+            width: 100%;
+            height: 300px;
+            background-image: url('https://clipartcraft.com/images/anniversary-clipart-transparent-background-1.png');
+            background-size: cover;
+            background-position: center;
+        }
+        @keyframes shake{
+            0%{
+                transform: rotate(5deg);
+            }
+            50%{
+                transform: rotate(-5deg);
+            }
+            100%{
+                transform: rotate(5deg);
+            }
+        }
+        @keyframes flameFlicker {
+            0% {
+                transform: translateX(-50%) scale(1, 1.05) rotate(-2deg);
+                opacity: 0.95;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.1, 0.9) rotate(1deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) scale(0.95, 1.1) rotate(-1deg);
+                opacity: 0.9;
+            }
+        }
+        @keyframes fall{
+            0%{
+                transform: rotate(360deg);
+            }
+            100%{
+                transform: rotate(0deg);
+                top: 100%;
+            }
+        }
+        @keyframes textBounce{
+            0%{
+                font-size: 0px;
+            }
+            90%{
+                font-size: 52px;
+            }
+            100%{
+                font-size: 46px;
+            }
+        }
+        @keyframes fromTop{
+            0%{
+                top: -200px;
+            }
+            100%{
+                top: 0;
+            }
+        }
+        @keyframes fromLeft{
+            0%{
+                left: -500px;
+            }
+            100%{
+                left: -100px;
+            }
+        }
+        @keyframes fromRight{
+            0%{
+                right: -500px;
+            }
+            100%{
+                right: -100px;
+            }
+        }
+        @keyframes fromDown{
+            0%{
+                bottom: -200px;
+            }
+            100%{
+                bottom: -80px;
+            }
+        }
+        @keyframes build{
+            0%{
+                transform: rotateX(90deg);
+            }
+            100%{
+                transform: rotateX(0deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main id="MainContainer">
+        <section id="timer">
+            <h3>I Love You</h3>
+        </section>
+        <section id="button-container">
+            <button id="btn1" onclick="openBirthday()" disabled>
+                Open Me On Your Birthday
+            </button>
+        </section>
+    </main>
+    <main id="MainContainer2" style="display: none;">
+        <section id="pops">
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+            <div class="pop"></div>
+        </section>
+        <section id="topDecoration">
+            <div id="triangles"></div>
+        </section>
+        <section id="balloonDecoration">
+            <div id="leftBalloons"></div>
+            <div id="rightBalloons"></div>
+        </section>
+        <section id="name">
+            <h1>ABISHA</h1>
+        </section>
+        <section id="cakeContainer">
+            <div id="candles">
+                <div id="candle2"></div>
+                <div id="candle1"></div>
+            </div>
+            <div id="topLayer"></div>
+            <div id="middleLayer"></div>
+            <div id="bottomLayer"></div>
+        </section>
+        <section id="bottomDecoration">
+            <div id="balloons"></div>
+        </section>
+    </main>
+    <script>
+        const targetDate = new Date("December 18, 2025 00:00:00").getTime();
+
+        const timer = setInterval(function () {
+
+            const now = new Date().getTime();
+
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                clearInterval(timer);
+                document.getElementById("btn1").disabled = false;
+                return;
+            }
+
+            const day = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const days = (day < 10) ?  '0'+day : day;
+            const hour = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const hours = (hour < 10) ?  '0'+hour : hour;
+            const minute = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const minutes = (minute < 10) ?  '0'+minute : minute;
+            const second = Math.floor((diff % (1000 * 60)) / 1000);
+            const seconds = (second < 10) ?  '0'+second : second;
+
+            document.getElementById("timer").innerHTML =
+                days + ":" + hours + ":" + minutes + ":" + seconds;
+
+            }, 1000);
+
+            function openBirthday(){
+                document.body.style.backgroundImage = "url('https://img.freepik.com/premium-vector/valentines-day-monochrome-seamless-pattern_67074-776.jpg')";
+                document.getElementById('MainContainer').style.display = "none"
+                document.getElementById('MainContainer2').style.display = "flex"
+            }
+
+            const pops = document.getElementsByClassName('pop')
+            const colors = ['blue','yellow','purple','orange','red','magenta','green','violet'];
+            for(let i = 0; i < pops.length; i++){
+                pops[i].style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                pops[i].style.animation = "fall "+ (Math.floor(Math.random() * (15 - 8 + 1)) + 8) +"s infinite linear";
+            }
+    </script>
+
+</body>
+</html>
