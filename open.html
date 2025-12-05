@@ -366,7 +366,24 @@
         </section>
     </main>
     <script>
-        const targetDate = new Date("December 5, 2025 00:00:00").getTime();
+        document.addEventListener('keydown', function(e) {
+
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+
+
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                alert("Vai pilla raja.");
+            }
+
+
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+            }
+        });
+        const targetDate = new Date("December 18, 2025 00:00:00").getTime();
 
         const timer = setInterval(function () {
 
