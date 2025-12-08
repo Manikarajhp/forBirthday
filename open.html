@@ -365,7 +365,7 @@
     </style>
 </head>
 <body>
-    <main id="MainContainer" style="display: none;">
+    <main id="MainContainer">
         <section id="timer">
             <h3>I LOVE YOU</h3>
         </section>
@@ -382,7 +382,7 @@
         </section>
     </main>
 
-    <main id="gameContainer">
+    <main id="gameContainer" style="display: none;">
         <section>
             <button id="btn3" onclick="closeGame()">
                 Exit
@@ -510,8 +510,9 @@
             const heart1 = document.getElementById('heart1');
             const heart2 = document.getElementById('heart2');
 
-            var score = 0;
+            var score = localStorage.getItem("score");
             var scoreSpan = document.getElementById("score");
+            scoreSpan.textContent = score;
             heart1.addEventListener("click", updateScore);
             heart2.addEventListener("click", updateScore);
             
