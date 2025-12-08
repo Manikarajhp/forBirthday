@@ -365,7 +365,7 @@
     </style>
 </head>
 <body>
-    <main id="MainContainer" style="display: none;">
+    <main id="MainContainer">
         <section id="timer">
             <h3>I LOVE YOU</h3>
         </section>
@@ -382,7 +382,7 @@
         </section>
     </main>
 
-    <main id="gameContainer">
+    <main id="gameContainer" style="display: none;">
         <section>
             <button id="btn3" onclick="closeGame()">
                 Exit
@@ -516,14 +516,16 @@
             heart2.addEventListener("click", updateScore);
             
             function updateScore(event) {
-                setHeart(event.target);
                 var bg = event.target.style.backgroundImage;
-            
+                
                 if (bg.includes("good")) {
+                    console.log(event.target.id);
+                    
                     score++;
                 } else {
                     score--;
                 }
+                setHeart(event.target);
                 scoreSpan.textContent = score;
                 localStorage.setItem("score", score);
             }
@@ -546,7 +548,7 @@
                 setHeart(heart2);
             }
 
-            setInterval(changeLocation, 2000);
+            setInterval(changeLocation, 2500);
 
             
     </script>
