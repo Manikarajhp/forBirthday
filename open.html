@@ -37,7 +37,7 @@
         }
         #gameContainer{
             width: 350px;
-            height: 700px;
+            height: 600px;
             background-color: rgba(126, 0, 236, 0.786);
             backdrop-filter: blur(3px);
             border-radius: 16px;
@@ -365,7 +365,7 @@
     </style>
 </head>
 <body>
-    <main id="MainContainer">
+    <main id="MainContainer" style="display: none;">
         <section id="timer">
             <h3>I LOVE YOU</h3>
         </section>
@@ -382,7 +382,7 @@
         </section>
     </main>
 
-    <main id="gameContainer" style="display: none;">
+    <main id="gameContainer">
         <section>
             <button id="btn3" onclick="closeGame()">
                 Exit
@@ -536,7 +536,7 @@
 
             function setHeart(heart) {
                 heart.style.left = randomPos(280) + "px";
-                heart.style.bottom = randomPos(600) + "px";
+                heart.style.bottom = randomPos(500) + "px";
             
                 var isGood = Math.random() < 0.5;
                 heart.style.backgroundImage = isGood ? goodHeart : badHeart;
