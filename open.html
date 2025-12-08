@@ -36,20 +36,21 @@
             box-shadow: 1px 1px 2px 2px rgb(56, 56, 56);
         }
         #gameContainer{
-            min-width: 350px;
-            min-height: 700px;
+            width: 350px;
+            height: 700px;
             background-color: rgba(126, 0, 236, 0.786);
             backdrop-filter: blur(3px);
             border-radius: 16px;
             position: relative;
             overflow: hidden;
         }
+        
         .hearts{
             position: absolute;
+            left: 0;
+            bottom: 0;
             width: 70px;
             height: 70px;
-            bottom: 0px;
-            left: 0px;
             background-size: cover;
             background-position: center;
         }
@@ -364,9 +365,9 @@
     </style>
 </head>
 <body>
-    <main id="MainContainer">
+    <main id="MainContainer" style="display: none;">
         <section id="timer">
-            <h3>oo</h3>
+            <h3>I LOVE YOU</h3>
         </section>
         <section id="button-container">
             <button id="btn1" onclick="openBirthday()" disabled>
@@ -381,12 +382,15 @@
         </section>
     </main>
 
-    <main id="gameContainer" style="display: none;">
-        <button id="btn3" onclick="closeGame()">
-            Exit
-        </button>
-        <h2 style="text-align: center; color: white; margin-top: -25px;">Captured Hearts : <span id="heartCount">0</span></h2>
-        <div class="hearts"></div>
+    <main id="gameContainer">
+        <section>
+            <button id="btn3" onclick="closeGame()">
+                Exit
+            </button>
+            <h2     style="text-align: center; color: white; margin-top: -25px;">Score : <span id="score">0</span></h2>
+        </section>
+            <div class="hearts" id="heart1"></div>
+            <div class="hearts" id="heart2"></div>
     </main>
     
     <main id="MainContainer2" style="display: none;">
@@ -501,33 +505,50 @@
                 pops[i].style.animation = "fall "+ (Math.floor(Math.random() * (15 - 8 + 1)) + 8) +"s infinite linear";
             }
 
-            const hearts = document.getElementsByClassName('hearts');
-            const goodHeart = "url('https://www.freeiconspng.com/uploads/heart-icon-valentine-2.png')";
-            const badHeart = "url('https://cdn2.iconfinder.com/data/icons/ecommerce-essentials-filled/24/Heart_fill-512.png')";
-            function locateHeartsImage(){
-                for(let i = 0; i < hearts.length; i++){
-                    hearts[i].style.left = Math.floor(Math.random() * (290 - 0 + 1) + 0) + 'px';
-                    hearts[i].style.backgroundImage = (i%5 == 0) ? badHeart : goodHeart;
-                }
-            }
-            // locateHeartsImage();
+            const goodHeart = "url('assest/good.png')";
+            const badHeart = "url('assest/bad.png')";
+            const heart1 = document.getElementById('heart1');
+            const heart2 = document.getElementById('heart2');
 
-            function heartGame() {
-                for (let i = 0; i < hearts.length; i++) {
-                    const heartElement = hearts[i];
-                    let currentBottom = parseInt(heartElement.style.bottom) || 0;
-                    if (currentBottom >= 700) {
-                        const newLeft = Math.floor(Math.random() * (280 - 0 + 1) + 0);
-                        heartElement.style.left = newLeft + 'px';
-                        currentBottom = -70; 
-                    
-                    } else {
-                        currentBottom += Math.floor(Math.random() * (2 - 1 + 1) + 1);
-                    }
-                    heartElement.style.bottom = currentBottom + 'px';
+            var score = 0;
+            var scoreSpan = document.getElementById("score");
+            heart1.addEventListener("click", updateScore);
+            heart2.addEventListener("click", updateScore);
+            
+            function updateScore(event) {
+                setHeart(event.target);
+                var bg = event.target.style.backgroundImage;
+            
+                if (bg.includes("good")) {
+                    score++;
+                } else {
+                    score--;
                 }
+                scoreSpan.textContent = score;
+                localStorage.setItem("score", score);
             }
-            // setInterval(heartGame)
+
+            function randomPos(max) {
+                return Math.floor(Math.random() * (max + 1));
+            }
+
+            function setHeart(heart) {
+                heart.style.left = randomPos(280) + "px";
+                heart.style.bottom = randomPos(600) + "px";
+            
+                var isGood = Math.random() < 0.5;
+                heart.style.backgroundImage = isGood ? goodHeart : badHeart;
+                heart.dataset.type = isGood ? "good" : "bad";
+            }
+
+            function changeLocation() {
+                setHeart(heart1);
+                setHeart(heart2);
+            }
+
+            setInterval(changeLocation, 2000);
+
+            
     </script>
 
 </body>
